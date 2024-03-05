@@ -3,6 +3,7 @@ package org.jonlima.iScheduler.service;
 import org.jonlima.iScheduler.model.User;
 import org.jonlima.iScheduler.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,14 +13,16 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final BCryptPasswordEncoder passwordEncoder;
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //CREATE
     public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -45,7 +48,7 @@ public class UserService {
             User existingUser = existingUserOptional.get();
             existingUser.setUsername(user.getUsername());
             existingUser.setEmail(user.getEmail());
-            existingUser.setPassword(user.getPassword());
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
             existingUser.setTimeZone(user.getTimeZone());
             return userRepository.save(existingUser);
         } else {
