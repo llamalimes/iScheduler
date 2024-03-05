@@ -1,0 +1,62 @@
+[
+  {
+    "username": "john_doe",
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "timeZone": "UTC-5"
+  },
+  {
+    "username": "jane_smith",
+    "email": "jane.smith@example.com",
+    "password": "password456",
+    "timeZone": "UTC-7"
+  },
+  {
+    "username": "alice_johnson",
+    "email": "alice.johnson@example.com",
+    "password": "password789",
+    "timeZone": "UTC-6"
+  },
+  {
+    "username": "bob_jones",
+    "email": "bob.jones@example.com",
+    "password": "password321",
+    "timeZone": "UTC-8"
+  },
+  {
+    "username": "sara_smith",
+    "email": "sara.smith@example.com",
+    "password": "password654",
+    "timeZone": "UTC-5"
+  },
+  {
+    "username": "mike_davis",
+    "email": "mike.davis@example.com",
+    "password": "password987",
+    "timeZone": "UTC-6"
+  },
+  {
+    "username": "emily_wilson",
+    "email": "emily.wilson@example.com",
+    "password": "password654",
+    "timeZone": "UTC-7"
+  },
+  {
+    "username": "david_johnson",
+    "email": "david.johnson@example.com",
+    "password": "password321",
+    "timeZone": "UTC-8"
+  },
+  {
+    "username": "amy_brown",
+    "email": "amy.brown@example.com",
+    "password": "password987",
+    "timeZone": "UTC-5"
+  },
+  {
+    "username": "tom_wilson",
+    "email": "tom.wilson@example.com",
+    "password": "password123",
+    "timeZone": "UTC-6"
+  }
+]
