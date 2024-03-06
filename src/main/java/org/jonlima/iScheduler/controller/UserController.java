@@ -5,8 +5,6 @@ import org.jonlima.iScheduler.repository.UserRepository;
 import org.jonlima.iScheduler.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -56,23 +54,5 @@ public class UserController {
         }
         userRepository.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        boolean isAuthenticated = userService.authenticate(username, password);
-        if (isAuthenticated) {
-            return "redirect:/landing";
-        } else {
-            return "redirect:/login?error=true";
-        }
-    }
-
-    @GetMapping("/landing")
-    public String landingPage(@AuthenticationPrincipal UserDetails userDetails) {
-        return "landing";
     }
 }
