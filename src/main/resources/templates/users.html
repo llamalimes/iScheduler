@@ -1,47 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>User Dashboard</title>
-    <!-- Add your CSS link or styles here -->
+    <!-- Add Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header>
-    <h1>Welcome to Your Scheduler Dashboard</h1>
-    <!-- Add navigation links here -->
+<header class="bg-dark text-white py-4">
+    <div class="container">
+        <h1><span th:text="${name}"></span>'s Scheduler Dashboard</h1>
+        <!-- Add navigation links here -->
+    </div>
 </header>
 
-<main>
-    <section id="friend-list">
+<main class="container py-4">
+    <section id="friend-list" class="mb-4">
         <h2>Friend List</h2>
-        <ul>
+        <ul class="list-group">
             <!-- Display list of friends here -->
-            <li>Friend 1</li>
-            <li>Friend 2</li>
-            <li>Friend 3</li>
+            <li th:each="friend : ${friends}" class="list-group-item" th:text="${friend.name}"></li>
         </ul>
     </section>
 
-    <section id="edit-availability">
+    <section id="edit-availability" class="mb-4">
         <h2>Edit Availability</h2>
         <form>
             <!-- Add form fields for editing availability -->
-            <label for="start-time">Start Time:</label>
-            <input type="time" id="start-time" name="start-time">
-            <label for="end-time">End Time:</label>
-            <input type="time" id="end-time" name="end-time">
-            <button type="submit">Save</button>
+            <div class="mb-3">
+                <label for="start-time" class="form-label">Start Time:</label>
+                <input type="time" id="start-time" name="start-time" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="end-time" class="form-label">End Time:</label>
+                <input type="time" id="end-time" name="end-time" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </section>
 
     <section id="view-calendar">
         <h2>View Calendar</h2>
-        <iframe src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_HERE" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?src=3a4e265c947c002424c4213d7fc057bfd0346d636eb8e6ac44f9c1148bfe5066@group.calendar.google.com" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
         <!-- Replace YOUR_CALENDAR_ID_HERE with your actual calendar ID -->
     </section>
 </main>
 
-<footer>
-    <p>&copy; 2024 Your Scheduler App</p>
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <p>&copy; 2024 Your Scheduler App</p>
+    </div>
 </footer>
+
+<!-- Add Bootstrap JS and jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
