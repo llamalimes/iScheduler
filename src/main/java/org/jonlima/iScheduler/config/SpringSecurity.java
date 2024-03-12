@@ -1,5 +1,6 @@
 package org.jonlima.iScheduler.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +13,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
     @Configuration
     @EnableWebSecurity
     public class SpringSecurity {
-        @Bean
+        //@Bean This was breaking the authentication process somehow
+        @Autowired //Ezra's fix
         public static PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
         }
@@ -26,6 +28,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
                                     .requestMatchers("/register/**").permitAll()
                                     .requestMatchers("/index").permitAll()
                                     .requestMatchers("/users").hasRole("ADMIN")
+                                    .requestMatchers("/add-friend").hasRole("ADMIN")
                             //.and()  DEPRECATED WAY OF DOING THINGS
                     ) //Ezra's fix
                     .formLogin(

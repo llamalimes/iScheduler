@@ -14,18 +14,44 @@
 </header>
 
 <main class="container py-4">
+    <!-- Display error message -->
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
     <section id="friend-list" class="mb-4">
-        <h2>Friend List</h2>
-        <ul class="list-group">
-            <!-- Display list of friends here -->
-            <li th:each="friend : ${friends}" class="list-group-item" th:text="${friend.name}"></li>
-        </ul>
+        <h2>Friend List
+            <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#friend-list-collapse" aria-expanded="false" aria-controls="friend-list-collapse" id="friend-list-btn">
+                <span class="fs-4"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 .708-.708L8 9.293l6.354-6.353a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1 0 .708z"/>
+                </svg>
+            </button>
+        </h2>
+        <div class="collapse" id="friend-list-collapse">
+            <ul class="list-group">
+                <li th:each="friend : ${friends}" class="list-group-item d-flex justify-content-between align-items-center">
+                    <span th:text="${friend.name}"></span>
+                    <form th:action="@{/remove-friend}" th:object="${friend}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </li>
+            </ul>
+            <form action="/add-friend" method="post">
+                <div class="mb-3">
+                    <br>
+                    <label for="friendEmail" class="form-label">Add Friend</label>
+                    <input type="text" class="form-control" id="friendEmail" name="friendEmail" placeholder="Enter friend's email">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Friend</button>
+            </form>
+        </div>
     </section>
 
-    <section id="edit-availability" class="mb-4">
+
+    <!--section id="edit-availability" class="mb-4">
         <h2>Edit Availability</h2>
         <form>
-            <!-- Add form fields for editing availability -->
             <div class="mb-3">
                 <label for="start-time" class="form-label">Start Time:</label>
                 <input type="time" id="start-time" name="start-time" class="form-control">
@@ -36,7 +62,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
-    </section>
+    </section-->
 
     <section id="view-calendar">
         <h2>View Calendar</h2>

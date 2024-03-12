@@ -11,4 +11,6 @@ import java.util.List;
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     @Query("SELECT f.user2 FROM Friendship f WHERE f.user1.id = :userId")
     List<User> findFriendsByUserId(@Param("userId") Long userId);
+
+    Friendship findByUser1AndUser2(User user, User friend);
 }
