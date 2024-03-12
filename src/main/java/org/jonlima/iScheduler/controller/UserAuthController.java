@@ -3,6 +3,7 @@ package org.jonlima.iScheduler.controller;
 import jakarta.validation.Valid;
 import org.jonlima.iScheduler.dto.UserDTO;
 import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.service.FriendshipService;
 import org.jonlima.iScheduler.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,15 +13,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.validation.BindingResult;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 public class UserAuthController {
     private UserService userService;
+    private FriendshipService friendshipService;
 
     @Autowired
-    public UserAuthController(UserService userService) {
+    public UserAuthController(UserService userService, FriendshipService friendshipService) {
         this.userService = userService;
+        this.friendshipService = friendshipService;
     }
     //handler method to handle the home (index.html is home) page request
 
@@ -66,10 +70,15 @@ public class UserAuthController {
 
     //handler method is used to handle a list of students
     @GetMapping("/users")
-    public String students(Model model){
-        List<UserDTO> users = userService.findAllUsers();
+    public String students(Model model, Principal principal){
 
-        model.addAttribute("users", users);
+        String email = principal.getName();
+        User user = userService.findUserByEmail(email);
+        model.addAttribute("name", user.getName());
+
+        List<User> friends = friendshipService.findFriendsByUserId(user.getId());
+        //model.addAttribute("username", user.getName());
+        model.addAttribute("friends", friends);
 
         return "users";
     }
