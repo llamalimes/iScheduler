@@ -99,6 +99,32 @@
                         <p th:errors = "*{password}" class="text-danger"
                            th:if="${#fields.hasErrors('password')}"></p>
                     </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Time Zone</label>
+                        <select class="form-select" id="timeZone" name="timeZone" th:field="*{timeZone}">
+                            <option th:each="tz : ${timeZones}" th:value="${tz}" th:text="${tz}">
+                            </option>
+                        </select>
+                        <p th:errors="*{timeZone}" class="text-danger" th:if="${#fields.hasErrors('timeZone')}"></p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Google Calendar ID</label>
+                        <input
+                                class="form-control"
+                                id="googleCalendarId"
+                                name="googleCalendarId"
+                                placeholder="Enter Google Calendar ID"
+                                th:field="*{googleCalendarId}"
+                                type="text"
+                        />
+                        <p th:errors="*{googleCalendarId}" class="text-danger" th:if="${#fields.hasErrors('googleCalendarId')}"></p>
+                        <small id="googleCalendarIdHelp" class="form-text text-muted">
+                            Need help finding your Google Calendar ID? <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Open Google Calendar, go to Settings, click on the name of your calendar, and find the Calendar ID in the Integrate calendar section.">Click here</a>.
+                        </small>
+                    </div>
+
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit">Register</button>
                         <span>Already registered? <a th:href="@{/login}">Login here</a></span>

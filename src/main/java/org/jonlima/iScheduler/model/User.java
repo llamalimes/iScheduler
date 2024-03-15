@@ -23,12 +23,16 @@ public class User {
 
     private String timeZone;
 
+    private String googleCalendarId;
+
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable (name ="user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id ", referencedColumnName = "id"
             )})
     public List<Role> roles = new ArrayList<>();
+
+
 
     @Override
     public String toString() {

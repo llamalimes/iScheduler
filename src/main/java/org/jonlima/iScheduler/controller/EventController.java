@@ -1,55 +1,38 @@
 package org.jonlima.iScheduler.controller;
 
-import org.jonlima.iScheduler.model.Event;
-import org.jonlima.iScheduler.repository.EventRepository;
+import org.jonlima.iScheduler.dto.EventDTO;
+import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.service.EventService;
+import org.jonlima.iScheduler.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.Principal;
 
-@RestController
-@RequestMapping("/api/events")
+@Controller
 public class EventController {
 
+    private EventService eventService;
     @Autowired
-    private EventRepository eventRepository;
+    private UserService userService;
 
-    @GetMapping
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    @Autowired
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+        this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Optional<Event> event = eventRepository.findById(id);
-        return event.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PostMapping("/createEvent")
+    public String createEvent(@ModelAttribute("eventForm") EventDTO eventDTO, Principal principal) throws GeneralSecurityException, IOException {
+        User user = userService.findUserByEmail(principal.getName());
+        String credentialsPath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS_PATH");
+        eventService.createEvent(eventDTO, user, credentialsPath);
+        return "redirect:/users"; // Redirect to the home page
     }
 
-    @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        Event savedEvent = eventRepository.save(event);
-        return ResponseEntity.created(URI.create("/api/events/" + savedEvent.getId())).body(savedEvent);
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) {
-        if (!eventRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        event.setId(id);
-        Event savedEvent = eventRepository.save(event);
-        return ResponseEntity.ok(savedEvent);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        if (!eventRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        eventRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
 }

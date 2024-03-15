@@ -15,9 +15,11 @@ import org.springframework.validation.BindingResult;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.TimeZone;
 
 @Controller
 public class UserAuthController {
+
     private UserService userService;
     private FriendshipService friendshipService;
 
@@ -37,6 +39,10 @@ public class UserAuthController {
     @GetMapping("/login")
     public String login() {
         return "login";
+    }
+    @ModelAttribute("timeZones")
+    public String[] getTimeZones() {
+        return TimeZone.getAvailableIDs();
     }
 
     //handler method to handle the user registration form request

@@ -23,4 +23,10 @@ public class UserDTO {
 
     @NotEmpty(message = "Password should not be empty")
     private String password;
+
+    @NotEmpty(message = "Time Zone should not be empty")
+    private String timeZone;
+
+    @NotEmpty(message = "Google Calendar ID should not be empty")
+    private String googleCalendarId;
 }

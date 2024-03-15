@@ -3,7 +3,8 @@ package org.jonlima.iScheduler.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import com.google.api.client.util.DateTime;
+
 import java.util.List;
 @Data
 @Entity
@@ -15,8 +16,8 @@ public class Event {
     private String title;
     private String description;
     private String location;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private DateTime startDateTime;
+    private DateTime endDateTime;
 
     @ManyToOne
     private User creator;

@@ -27,21 +27,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDTO userDto){
+    public void saveUser(UserDTO userDto) {
         User user = new User();
 
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
-
-        //Encrypt the password using Spring Security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setTimeZone(userDto.getTimeZone()); // Set the timeZone
+        user.setGoogleCalendarId(userDto.getGoogleCalendarId()); // Set the googleCalendarId
+
         Role role = roleRepository.findByName("ROLE_ADMIN");
-        if (role == null){
+        if (role == null) {
             role = checkRoleExist();
         }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(role));
         userRepository.save(user);
     }
+
 
     private Role checkRoleExist(){
         Role role = new Role();
