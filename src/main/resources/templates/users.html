@@ -32,7 +32,7 @@
                 <li th:each="friend : ${friends}" class="list-group-item d-flex justify-content-between align-items-center">
                     <span th:text="${friend.name}"></span>
                     <form th:action="@{/remove-friend}" th:object="${friend}" method="post">
-                        <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" name="friendEmail" th:value="${friend.email}">
                         <button type="submit" class="btn btn-danger">Remove</button>
                     </form>
                 </li>

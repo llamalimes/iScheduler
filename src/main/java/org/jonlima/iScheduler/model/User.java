@@ -29,4 +29,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id ", referencedColumnName = "id"
             )})
     public List<Role> roles = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", name='" + name + "', email='" + email + "', password='" + password + "', timeZone='" + timeZone + "'}";
+    }
 }

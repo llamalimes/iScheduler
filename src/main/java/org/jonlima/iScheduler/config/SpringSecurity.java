@@ -29,6 +29,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
                                     .requestMatchers("/index").permitAll()
                                     .requestMatchers("/users").hasRole("ADMIN")
                                     .requestMatchers("/add-friend").hasRole("ADMIN")
+                                    .requestMatchers("/remove-friend").hasRole("ADMIN")
                             //.and()  DEPRECATED WAY OF DOING THINGS
                     ) //Ezra's fix
                     .formLogin(

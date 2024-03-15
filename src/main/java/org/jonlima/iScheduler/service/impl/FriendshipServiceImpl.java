@@ -31,6 +31,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     @Override
     public void removeFriend(User user, User friend) {
         Friendship friendship = friendshipRepository.findByUser1AndUser2(user, friend);
+        System.out.println(friendship);
         if (friendship != null) {
             friendshipRepository.delete(friendship);
         } else {
