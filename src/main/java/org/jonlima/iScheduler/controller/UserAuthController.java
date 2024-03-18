@@ -2,9 +2,12 @@ package org.jonlima.iScheduler.controller;
 
 import jakarta.validation.Valid;
 import org.jonlima.iScheduler.dto.UserDTO;
+import org.jonlima.iScheduler.model.Availability;
 import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.service.AvailabilityService;
 import org.jonlima.iScheduler.service.FriendshipService;
 import org.jonlima.iScheduler.service.UserService;
+import org.jonlima.iScheduler.service.impl.AvailabilityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +23,14 @@ import java.util.List;
 public class UserAuthController {
     private UserService userService;
     private FriendshipService friendshipService;
+    //@Autowired
+    private AvailabilityService availabilityService;
 
     @Autowired
-    public UserAuthController(UserService userService, FriendshipService friendshipService) {
+    public UserAuthController(UserService userService, FriendshipService friendshipService, AvailabilityService availabilityService) {
         this.userService = userService;
         this.friendshipService = friendshipService;
+        this.availabilityService = availabilityService;
     }
     //handler method to handle the home (index.html is home) page request
 
@@ -70,15 +76,19 @@ public class UserAuthController {
 
     //handler method is used to handle a list of students
     @GetMapping("/users")
-    public String students(Model model, Principal principal){
+    public String users(Model model, Principal principal){
 
         String email = principal.getName();
         User user = userService.findUserByEmail(email);
         model.addAttribute("name", user.getName());
 
         List<User> friends = friendshipService.findFriendsByUserId(user.getId());
-        //model.addAttribute("username", user.getName());
         model.addAttribute("friends", friends);
+
+        // Retrieve availability of the logged-in user
+        List<Availability> availabilities = availabilityService.findAvailabilitiesByUser(user);
+        model.addAttribute("user", user);
+
 
         return "users";
     }

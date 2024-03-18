@@ -47,28 +47,55 @@
             </form>
         </div>
     </section>
-
-
+    <section id="view-availability" class ="mb-4">
+        <h1>User Availability</h1>
+        <div th:each="availability : ${user.availabilities}">
+            <h2 th:text="${availability.dayOfWeek}"></h2>
+            <ul>
+                <li th:each="timeBlock : ${availability.timeBlocks}">
+                    <span th:text="${timeBlock.startTime} + ' - ' + ${timeBlock.endTime}"></span>
+                </li>
+            </ul>
+        </div>
+    </section>
     <!--section id="edit-availability" class="mb-4">
-        <h2>Edit Availability</h2>
-        <form>
-            <div class="mb-3">
-                <label for="start-time" class="form-label">Start Time:</label>
-                <input type="time" id="start-time" name="start-time" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="end-time" class="form-label">End Time:</label>
-                <input type="time" id="end-time" name="end-time" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+        <h1>Set Availability</h1>
+
+        <div th:each="availability : ${availabilities}">
+
+            <form th:action="@{/availability/save}" th:object="${availability}" method="post">
+                <label for="dayOfWeek">Day of Week:</label>
+                <select id="dayOfWeek" name="dayOfWeek">
+                    <option value="MONDAY">Monday</option>
+                    <option value="TUESDAY">Tuesday</option>
+                    <option value="WEDNESDAY">Wednesday</option>
+                    <option value="THURSDAY">Thursday</option>
+                    <option value="FRIDAY">Friday</option>
+                    <option value="SATURDAY">Saturday</option>
+                    <option value="SUNDAY">Sunday</option>
+                </select><br>
+
+                <div th:each="block, blockStat : ${availability.timeBlocks}" class="time-block">
+                    <label th:for="'startTime' + ${blockStat.index}">Start Time:</label>
+                    <input type="time" th:id="'startTime' + ${blockStat.index}" th:field="*{timeBlocks[__${blockStat.index}__].startTime}" name="startTime"><br>
+
+                    <label th:for="'endTime' + ${blockStat.index}">End Time:</label>
+                    <input type="time" th:id="'endTime' + ${blockStat.index}" th:field="*{timeBlocks[__${blockStat.index}__].endTime}" name="endTime"><br>
+                </div>
+
+                <button type="button" id="addTimeBlock">Add Time Block</button><br>
+
+                <input type="submit" value="Save">
+            </form>
+
+        </div>
+
     </section-->
 
-    <section id="view-calendar">
+    <!--section id="view-calendar">
         <h2>View Calendar</h2>
         <iframe src="https://calendar.google.com/calendar/embed?src=3a4e265c947c002424c4213d7fc057bfd0346d636eb8e6ac44f9c1148bfe5066@group.calendar.google.com" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-        <!-- Replace YOUR_CALENDAR_ID_HERE with your actual calendar ID -->
-    </section>
+    </section-->
 </main>
 
 <footer class="bg-dark text-white py-4">
@@ -78,6 +105,48 @@
 </footer>
 
 <!-- Add Bootstrap JS and jQuery -->
+<!-- script th:inline="javascript">
+    /*<![CDATA[*/
+    let blockIndex = 0;
+    /*[[${availabilities != null ? #lists.size(availability.timeBlocks) : 0}]]*/
+
+
+    document.getElementById('addTimeBlock').addEventListener('click', function() {
+        let blockDiv = document.createElement('div');
+        blockDiv.classList.add('time-block');
+
+        let index = blockIndex++;
+
+        let startTimeLabel = document.createElement('label');
+        startTimeLabel.setAttribute('for', 'startTime' + index);
+        startTimeLabel.textContent = 'Start Time:';
+
+        let startTimeInput = document.createElement('input');
+        startTimeInput.setAttribute('type', 'time');
+        startTimeInput.setAttribute('id', 'startTime' + index);
+        startTimeInput.setAttribute('name', 'startTime');
+
+        let endTimeLabel = document.createElement('label');
+        endTimeLabel.setAttribute('for', 'endTime' + index);
+        endTimeLabel.textContent = 'End Time:';
+
+        let endTimeInput = document.createElement('input');
+        endTimeInput.setAttribute('type', 'time');
+        endTimeInput.setAttribute('id', 'endTime' + index);
+        endTimeInput.setAttribute('name', 'endTime');
+
+        blockDiv.appendChild(startTimeLabel);
+        blockDiv.appendChild(startTimeInput);
+        blockDiv.appendChild(document.createElement('br'));
+        blockDiv.appendChild(endTimeLabel);
+        blockDiv.appendChild(endTimeInput);
+        blockDiv.appendChild(document.createElement('br'));
+
+        document.querySelector('form').appendChild(blockDiv);
+    });
+    /*]]>*/
+</script-->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
