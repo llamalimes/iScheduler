@@ -37,7 +37,7 @@ public class User {
 
     public User() {
         // Create default availabilities
-        createDefaultAvailabilities();
+        //createDefaultAvailabilities();
     }
     private void createDefaultAvailabilities() {
         for (DayOfWeek dayOfWeek : DayOfWeek.values()) {

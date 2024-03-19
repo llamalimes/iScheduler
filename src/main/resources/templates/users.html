@@ -52,21 +52,18 @@
     </section>
     <section id="view-availability" class="mb-4">
         <h1>User Availability</h1>
-        <!--div th:each="dayOfWeek, availabilities : ${availabilitiesByDay}"-->
-            <div th:each="availabilities : ${availabilitiesByDay}">
-
-            <!--h2 th:text="${dayOfWeek}"></h2-->
-                <h2 th:text="${availabilities.key}"></h2>
-
-                <!--li th:each="availability : ${availabilities}"-->
-                <ul th:each="availability : ${availabilities.value}">
-
-                        <li th:each="timeBlock : ${availability.timeBlocks}">
-                            <span th:text="${timeBlock.startTime} + ' - ' + ${timeBlock.endTime}"></span>
-                        </li>
-
-                </ul>
-
+        <div th:if="${availabilitiesByDay != null}">
+        <div th:each="availabilities : ${availabilitiesByDay}">
+            <h2 th:text="${availabilities.key}"></h2>
+            <ul th:each="availability : ${availabilities.value}">
+                <li th:each="timeBlock : ${availability.timeBlocks}">
+                    <span th:text="${timeBlock.startTime} + ' - ' + ${timeBlock.endTime}"></span>
+                </li>
+            </ul>
+        </div>
+        </div>
+        <div th:if="${availabilitiesByDay == null}">
+            <p>No availability set</p>
         </div>
     </section>
 
