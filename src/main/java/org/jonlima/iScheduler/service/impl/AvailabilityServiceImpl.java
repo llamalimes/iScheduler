@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +39,12 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     public List<Availability> findAvailabilitiesByUserAndDayOfWeek(User user, DayOfWeek dayOfWeek) {
         return availabilityRepository.findByUserAndDayOfWeek(user, dayOfWeek);
     }
-
+    @Override
+    public Map<DayOfWeek, List<Availability>> findAvailabilitiesGroupedByDay(User user) {
+        List<Availability> availabilities = findAvailabilitiesByUser(user);
+        return availabilities.stream()
+                .collect(Collectors.groupingBy(Availability::getDayOfWeek));
+    }
     @Override
     public void initializeClosedAvailability(User user) {
         Availability availability = new Availability();

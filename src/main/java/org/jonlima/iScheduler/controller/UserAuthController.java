@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.validation.BindingResult;
 
 import java.security.Principal;
+import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserAuthController {
@@ -84,13 +87,19 @@ public class UserAuthController {
         List<User> friends = friendshipService.findFriendsByUserId(user.getId());
         model.addAttribute("friends", friends);
 
+        // Retrieve availability of the logged-in user grouped by day
+        //Map<DayOfWeek, List<Availability>> availabilitiesByDay = availabilityService.findAvailabilitiesGroupedByDay(user);
+        //model.addAttribute("availabilitiesByDay", availabilitiesByDay);
+
         // Retrieve availability of the logged-in user
         List<Availability> availabilities = availabilityService.findAvailabilitiesByUser(user);
-        model.addAttribute("user", user);
-
+        Map<DayOfWeek, List<Availability>> availabilitiesByDay = availabilities.stream()
+                .collect(Collectors.groupingBy(Availability::getDayOfWeek));
+        model.addAttribute("availabilitiesByDay", availabilitiesByDay);
 
         return "users";
     }
+
 
 }
 

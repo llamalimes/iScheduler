@@ -25,7 +25,7 @@ public class User {
 
     private String timeZone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Availability> availabilities = new ArrayList<>();
 
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)

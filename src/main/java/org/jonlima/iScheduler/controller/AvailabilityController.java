@@ -2,8 +2,10 @@ package org.jonlima.iScheduler.controller;
 
 import jakarta.validation.Valid;
 import org.jonlima.iScheduler.model.Availability;
+import org.jonlima.iScheduler.model.TimeBlock;
 import org.jonlima.iScheduler.model.dto.AvailabilityForm;
 import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.model.dto.TimeBlockForm;
 import org.jonlima.iScheduler.service.AvailabilityService;
 import org.jonlima.iScheduler.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/availability")
@@ -30,12 +33,17 @@ public class AvailabilityController {
     // Endpoint to display the availability modification form
     @GetMapping("/modify")
     public String showAvailabilityForm(Model model) {
-        model.addAttribute("availabilityForm", new AvailabilityForm());
-        // Add any additional data needed for the form (e.g., user information)
-        return "availability-form"; // The name of the Thymeleaf template for the form
-    }
+        AvailabilityForm availabilityForm = new AvailabilityForm();
+        // Initialize timeBlocks with default values if not present,
+        // replace MyTimeBlock.class with the actual implementation.
+        // `List.of` is available since Java 9, you can use Arrays.asList for earler versions.
+        availabilityForm.setTimeBlocks(List.of(new TimeBlockForm()));
 
-    // Endpoint to handle form submission and update availability
+        model.addAttribute("availabilityForm", availabilityForm);
+
+        // Add any additional data needed for the form (e.g., user information)
+        return "availability-form";
+    }
     // Endpoint to handle form submission and update availability
     @PostMapping("/modify")
     public String modifyAvailability(@ModelAttribute("availabilityForm") @Valid AvailabilityForm availabilityForm,

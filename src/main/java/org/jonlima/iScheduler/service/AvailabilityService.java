@@ -7,6 +7,7 @@ import org.jonlima.iScheduler.model.dto.AvailabilityForm;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 public interface AvailabilityService {
 
@@ -18,6 +19,8 @@ public interface AvailabilityService {
 
     // Find availabilities by user and day of the week
     List<Availability> findAvailabilitiesByUserAndDayOfWeek(User user, DayOfWeek dayOfWeek);
+
+    Map<DayOfWeek, List<Availability>> findAvailabilitiesGroupedByDay(User user);
 
     // Initialize closed availability for a user
     void initializeClosedAvailability(User user);
