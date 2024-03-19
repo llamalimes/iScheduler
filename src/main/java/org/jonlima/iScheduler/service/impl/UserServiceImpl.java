@@ -59,10 +59,7 @@ public class UserServiceImpl implements UserService {
     public User findUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
-//    @Override
-//    public User findUserByUsername(String username){
-//        return userRepository.findByUsername(username);
-//    }
+
     @Override
     public List<UserDTO> findAllUsers(){
         List<User> users = userRepository.findAll();
@@ -71,6 +68,12 @@ public class UserServiceImpl implements UserService {
                 .map((user) -> mapToUserDto(user))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public User findUserById(Long friendId) {
+        return userRepository.findUserById(friendId);
+    }
+
     public UserDTO mapToUserDto(User user){
         UserDTO userDTO = new UserDTO();
 

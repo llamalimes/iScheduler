@@ -13,5 +13,14 @@ public class TimeBlock {
 
     private LocalTime endTime;
 
+    // Constructor with startTime and endTime arguments
+    public TimeBlock(LocalTime startTime, LocalTime endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    // Default constructor (required for Hibernate)
+    public TimeBlock() {
+    }
 
 }

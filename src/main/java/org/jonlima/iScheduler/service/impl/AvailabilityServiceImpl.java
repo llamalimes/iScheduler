@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -78,6 +80,65 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
         return availability;
     }
+
+    @Override
+    public List<TimeBlock> findOverlappingTimeBlocks(List<Availability> userAvailabilities, List<Availability> friendAvailabilities, int meetingDuration) {
+        List<TimeBlock> overlappingTimeBlocks = new ArrayList<>();
+
+        for (Availability userAvailability : userAvailabilities) {
+            for (Availability friendAvailability : friendAvailabilities) {
+                if (userAvailability.getDayOfWeek() == friendAvailability.getDayOfWeek()) {
+                    List<TimeBlock> userTimeBlocks = userAvailability.getTimeBlocks();
+                    List<TimeBlock> friendTimeBlocks = friendAvailability.getTimeBlocks();
+
+                    for (TimeBlock userTimeBlock : userTimeBlocks) {
+                        for (TimeBlock friendTimeBlock : friendTimeBlocks) {
+                            // Check if the time blocks overlap
+                            if (isOverlapping(userTimeBlock, friendTimeBlock)) {
+                                // Check if the overlapping duration is enough for the meeting
+                                if (calculateOverlapDuration(userTimeBlock, friendTimeBlock).toMinutes() >= meetingDuration) {
+                                    overlappingTimeBlocks.add(getOverlapTimeBlock(userTimeBlock, friendTimeBlock, meetingDuration));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return overlappingTimeBlocks;
+    }
+    // Helper method to check if two time blocks overlap
+    private boolean isOverlapping(TimeBlock timeBlock1, TimeBlock timeBlock2) {
+        return !timeBlock1.getEndTime().isBefore(timeBlock2.getStartTime()) && !timeBlock2.getEndTime().isBefore(timeBlock1.getStartTime());
+    }
+    // Helper method to calculate the overlap duration between two time blocks
+    private Duration calculateOverlapDuration(TimeBlock timeBlock1, TimeBlock timeBlock2) {
+        return Duration.between(
+                timeBlock1.getStartTime().isAfter(timeBlock2.getStartTime()) ? timeBlock1.getStartTime() : timeBlock2.getStartTime(),
+                timeBlock1.getEndTime().isBefore(timeBlock2.getEndTime()) ? timeBlock1.getEndTime() : timeBlock2.getEndTime()
+        );
+    }
+    // Helper method to create a TimeBlock representing the overlapping time slot with the meeting duration
+    private TimeBlock getOverlapTimeBlock(TimeBlock timeBlock1, TimeBlock timeBlock2, int meetingDuration) {
+        return new TimeBlock(
+                timeBlock1.getStartTime().isAfter(timeBlock2.getStartTime()) ? timeBlock1.getStartTime() : timeBlock2.getStartTime(),
+                timeBlock1.getEndTime().isBefore(timeBlock2.getEndTime()) ? timeBlock1.getEndTime() : timeBlock2.getEndTime().minusMinutes(meetingDuration)
+        );
+    }
+    @Override
+    public TimeBlock findEarliestTimeBlock(List<TimeBlock> timeBlocks) {
+        if (timeBlocks.isEmpty()) {
+            return null;
+        }
+
+        // Sort the time blocks by start time
+        timeBlocks.sort((tb1, tb2) -> tb1.getStartTime().compareTo(tb2.getStartTime()));
+
+        // Return the earliest time block
+        return timeBlocks.get(0);
+    }
+
     // Helper method to convert TimeBlockForm to TimeBlock
     private TimeBlock convertToTimeBlock(TimeBlockForm timeBlockForm) {
         TimeBlock timeBlock = new TimeBlock();
@@ -85,5 +146,6 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         timeBlock.setEndTime(timeBlockForm.getEndTime());
         return timeBlock;
     }
+
 
 }

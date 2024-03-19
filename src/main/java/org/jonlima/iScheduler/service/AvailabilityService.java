@@ -1,6 +1,7 @@
 package org.jonlima.iScheduler.service;
 
 import org.jonlima.iScheduler.model.Availability;
+import org.jonlima.iScheduler.model.TimeBlock;
 import org.jonlima.iScheduler.model.User;
 import org.jonlima.iScheduler.model.dto.AvailabilityForm;
 
@@ -17,6 +18,8 @@ public interface AvailabilityService {
     // Find availabilities by user
     List<Availability> findAvailabilitiesByUser(User user);
 
+    Availability findByUserId(long userId);
+
     // Find availabilities by user and day of the week
     List<Availability> findAvailabilitiesByUserAndDayOfWeek(User user, DayOfWeek dayOfWeek);
 
@@ -31,4 +34,7 @@ public interface AvailabilityService {
     // Helper method to convert AvailabilityForm to Availability entity
     Availability convertToAvailability(AvailabilityForm availabilityForm, User user);
 
+    public List<TimeBlock> findOverlappingTimeBlocks(List<Availability> userAvailabilities, List<Availability> friendAvailabilities, int meetingDuration);
+
+    TimeBlock findEarliestTimeBlock(List<TimeBlock> timeBlocks);
 }

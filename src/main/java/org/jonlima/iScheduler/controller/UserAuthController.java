@@ -1,6 +1,7 @@
 package org.jonlima.iScheduler.controller;
 
 import jakarta.validation.Valid;
+import org.jonlima.iScheduler.model.TimeBlock;
 import org.jonlima.iScheduler.model.dto.UserDTO;
 import org.jonlima.iScheduler.model.Availability;
 import org.jonlima.iScheduler.model.User;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -99,6 +102,37 @@ public class UserAuthController {
 
         return "users";
     }
+
+    @PostMapping("/schedule-meeting")
+    public String scheduleMeeting(@RequestParam("meetingDuration") int meetingDuration,
+                                  @RequestParam("friendId") Long friendId,
+                                  Principal principal,
+                                  Model model) {
+        // Retrieve the current user
+        String email = principal.getName();
+        User user = userService.findUserByEmail(email);
+
+        // Retrieve the friend by ID
+        User friend = userService.findUserById(friendId);
+
+        // Retrieve availabilities of the current user and the friend
+        List<Availability> userAvailabilities = availabilityService.findAvailabilitiesByUser(user);
+        List<Availability> friendAvailabilities = availabilityService.findAvailabilitiesByUser(friend);
+
+        // Find overlapping time slots where both users are available for the specified meeting duration
+        List<TimeBlock> overlappingTimeBlocks = availabilityService.findOverlappingTimeBlocks(userAvailabilities, friendAvailabilities, meetingDuration);
+
+        // Determine the earliest available time slot
+        TimeBlock earliestTimeBlock = availabilityService.findEarliestTimeBlock(overlappingTimeBlocks);
+
+        // Add the earliest time block to the model for display on the dashboard
+        model.addAttribute("earliestTimeBlock", earliestTimeBlock);
+
+        // Return the user dashboard view
+        return "users";
+    }
+
+
 
 
 }
