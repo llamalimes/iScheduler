@@ -18,6 +18,9 @@
     <div th:if="${error}" class="alert alert-danger" role="alert">
         <span th:text="${error}"></span>
     </div>
+    <!-- Link to modify availability form -->
+    <a href="/availability/modify" class="btn btn-primary mb-3">Modify Availability</a>
+
     <section id="friend-list" class="mb-4">
         <h2>Friend List
             <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#friend-list-collapse" aria-expanded="false" aria-controls="friend-list-collapse" id="friend-list-btn">

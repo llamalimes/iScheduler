@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modify Availability</title>
+    <!-- Add any necessary CSS or JavaScript links here -->
+</head>
+<body>
+
+<h2>Modify Availability</h2>
+
+<form th:action="@{/availability/modify}" th:object="${availabilityForm}" method="post">
+    <!-- Display any validation errors here if needed -->
+    <div th:if="${#fields.hasErrors('*')}">
+        <ul>
+            <li th:each="error : ${#fields.errors('*')}" th:text="${error}"></li>
+        </ul>
+    </div>
+
+    <!-- Day of week selection -->
+    <div class="form-group">
+        <label for="dayOfWeek">Day of Week:</label>
+        <select id="dayOfWeek" name="dayOfWeek" th:field="*{dayOfWeek}">
+            <option value="MONDAY">Monday</option>
+            <option value="TUESDAY">Tuesday</option>
+            <option value="WEDNESDAY">Wednesday</option>
+            <option value="THURSDAY">Thursday</option>
+            <option value="FRIDAY">Friday</option>
+            <option value="SATURDAY">Saturday</option>
+            <option value="SUNDAY">Sunday</option>
+        </select>
+    </div>
+
+    <!-- Time block inputs -->
+    <div class="form-group" th:each="timeBlock, blockStat : *{timeBlocks}">
+        <label th:for="'startTime' + ${blockStat.index}">Start Time:</label>
+        <input type="time" th:id="'startTime' + ${blockStat.index}" th:field="*{timeBlocks[__${blockStat.index}__].startTime}" required>
+        <br>
+        <label th:for="'endTime' + ${blockStat.index}">End Time:</label>
+        <input type="time" th:id="'endTime' + ${blockStat.index}" th:field="*{timeBlocks[__${blockStat.index}__].endTime}" required>
+        <br>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit">Save</button>
+</form>
+
+</body>
+</html>

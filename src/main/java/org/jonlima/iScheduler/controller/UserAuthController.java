@@ -1,13 +1,12 @@
 package org.jonlima.iScheduler.controller;
 
 import jakarta.validation.Valid;
-import org.jonlima.iScheduler.dto.UserDTO;
+import org.jonlima.iScheduler.model.dto.UserDTO;
 import org.jonlima.iScheduler.model.Availability;
 import org.jonlima.iScheduler.model.User;
 import org.jonlima.iScheduler.service.AvailabilityService;
 import org.jonlima.iScheduler.service.FriendshipService;
 import org.jonlima.iScheduler.service.UserService;
-import org.jonlima.iScheduler.service.impl.AvailabilityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

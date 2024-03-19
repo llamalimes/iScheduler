@@ -45,3 +45,38 @@
 </body>
 </html>
 
+<!--
+    <!- Button to add more time blocks ->
+    <button type="button" onclick="addTimeBlock()">Add Time Block</button>
+
+
+
+<!- JavaScript function to add more time blocks dynamically ->
+<script th:inline="javascript">
+    function addTimeBlock() {
+        let timeBlockIndex = /*[[${#fields.fields('timeBlocks').size()}]]*/ 0;
+        let timeBlockDiv = document.createElement('div');
+
+        let startTimeLabel = document.createElement('label');
+        startTimeLabel.textContent = 'Start Time:';
+        let startTimeInput = document.createElement('input');
+        startTimeInput.type = 'time';
+        startTimeInput.name = 'timeBlocks[' + timeBlockIndex + '].startTime';
+
+        let endTimeLabel = document.createElement('label');
+        endTimeLabel.textContent = 'End Time:';
+        let endTimeInput = document.createElement('input');
+        endTimeInput.type = 'time';
+        endTimeInput.name = 'timeBlocks[' + timeBlockIndex + '].endTime';
+
+        timeBlockDiv.appendChild(startTimeLabel);
+        timeBlockDiv.appendChild(startTimeInput);
+        timeBlockDiv.appendChild(document.createElement('br'));
+        timeBlockDiv.appendChild(endTimeLabel);
+        timeBlockDiv.appendChild(endTimeInput);
+        timeBlockDiv.appendChild(document.createElement('br'));
+
+        document.querySelector('form').appendChild(timeBlockDiv);
+    }
+</script>
+-->

@@ -1,6 +1,6 @@
 package org.jonlima.iScheduler.service.impl;
 
-import org.jonlima.iScheduler.dto.UserDTO;
+import org.jonlima.iScheduler.model.dto.UserDTO;
 import org.jonlima.iScheduler.model.Role;
 import org.jonlima.iScheduler.model.User;
 import org.jonlima.iScheduler.repository.RoleRepository;
