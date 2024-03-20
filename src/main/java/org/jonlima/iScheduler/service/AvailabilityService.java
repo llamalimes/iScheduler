@@ -1,6 +1,7 @@
 package org.jonlima.iScheduler.service;
 
 import org.jonlima.iScheduler.model.Availability;
+import org.jonlima.iScheduler.model.TimeBlock;
 import org.jonlima.iScheduler.model.User;
 import org.jonlima.iScheduler.model.dto.AvailabilityForm;
 
@@ -31,4 +32,5 @@ public interface AvailabilityService {
     // Helper method to convert AvailabilityForm to Availability entity
     Availability convertToAvailability(AvailabilityForm availabilityForm, User user);
 
+    TimeBlock findCommonAvailability(User user, User friend);
 }

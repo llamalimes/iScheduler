@@ -78,6 +78,35 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
         return availability;
     }
+
+    @Override
+    public TimeBlock findCommonAvailability(User user1, User user2) {
+        List<Availability> availabilities1 = user1.getAvailabilities();
+        List<Availability> availabilities2 = user2.getAvailabilities();
+
+        for (int day = 0; day < 7; day++) { // Assuming 0 = Monday, 1 = Tuesday, ..., 6 = Sunday
+            List<TimeBlock> blocks1 = availabilities1.get(day).getTimeBlocks();
+            List<TimeBlock> blocks2 = availabilities2.get(day).getTimeBlocks();
+
+            for (TimeBlock block1 : blocks1) {
+                for (TimeBlock block2 : blocks2) {
+                    if (block1.overlapsWith(block2)) {
+                        TimeBlock overlap = block1.getOverlap(block2);
+                        if (overlap != null) {
+                            return overlap;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null; // No common 1-hour availability found
+    }
+
+
+
+
+
     // Helper method to convert TimeBlockForm to TimeBlock
     private TimeBlock convertToTimeBlock(TimeBlockForm timeBlockForm) {
         TimeBlock timeBlock = new TimeBlock();

@@ -25,12 +25,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
             http.csrf((csrf) -> csrf.disable()) //Ezra's Fix
                     //.authorizeHttpRequests()  DEPRECATED WAY OF DOING THINGS
                     .authorizeHttpRequests((authz) -> authz //Ezra's fix
+                                    .requestMatchers("/").permitAll()
+                                    .requestMatchers("/js/**").permitAll()
                                     .requestMatchers("/register/**").permitAll()
                                     .requestMatchers("/index").permitAll()
                                     .requestMatchers("/users").hasRole("ADMIN")
                                     .requestMatchers("/add-friend").hasRole("ADMIN")
                                     .requestMatchers("/remove-friend").hasRole("ADMIN")
                                     .requestMatchers("/availability/**").hasRole("ADMIN")
+                                    .requestMatchers("/compare-availabilities*").hasRole("ADMIN")
                             //.and()  DEPRECATED WAY OF DOING THINGS
                     ) //Ezra's fix
                     .formLogin(

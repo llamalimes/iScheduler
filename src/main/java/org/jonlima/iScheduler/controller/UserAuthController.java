@@ -82,6 +82,7 @@ public class UserAuthController {
 
         String email = principal.getName();
         User user = userService.findUserByEmail(email);
+        model.addAttribute("user", user);
         model.addAttribute("name", user.getName());
 
         List<User> friends = friendshipService.findFriendsByUserId(user.getId());

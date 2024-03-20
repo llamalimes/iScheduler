@@ -71,6 +71,12 @@ public class UserServiceImpl implements UserService {
                 .map((user) -> mapToUserDto(user))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public User findById(Long id) {
+        return userRepository.findUserById(id);
+    }
+
     public UserDTO mapToUserDto(User user){
         UserDTO userDTO = new UserDTO();
 

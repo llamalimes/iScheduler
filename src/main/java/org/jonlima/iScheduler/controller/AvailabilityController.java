@@ -34,9 +34,6 @@ public class AvailabilityController {
     @GetMapping("/modify")
     public String showAvailabilityForm(Model model) {
         AvailabilityForm availabilityForm = new AvailabilityForm();
-        // Initialize timeBlocks with default values if not present,
-        // replace MyTimeBlock.class with the actual implementation.
-        // `List.of` is available since Java 9, you can use Arrays.asList for earler versions.
         availabilityForm.setTimeBlocks(List.of(new TimeBlockForm()));
 
         model.addAttribute("availabilityForm", availabilityForm);
@@ -66,6 +63,17 @@ public class AvailabilityController {
 
         // Redirect to a confirmation page
         return "redirect:/availability/confirmation";
+    }
+    @GetMapping("/compare-availabilities")
+    public String compareAvailabilities(@RequestParam Long userId1, @RequestParam Long userId2, Model model) {
+        User user1 = userService.findById(userId1);
+        User user2 = userService.findById(userId2);
+        System.out.println(user1);
+        System.out.println(user2);
+        TimeBlock commonAvailability = availabilityService.findCommonAvailability(user1, user2);
+        System.out.println(commonAvailability);
+        model.addAttribute("commonAvailability", commonAvailability);
+        return "availability-comparison"; // Name of the Thymeleaf template to display the result
     }
 
 
