@@ -26,7 +26,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
                     //.authorizeHttpRequests()  DEPRECATED WAY OF DOING THINGS
                     .authorizeHttpRequests((authz) -> authz //Ezra's fix
                                     .requestMatchers("/").permitAll()
-                                    .requestMatchers("/js/**").permitAll()
+                                    .requestMatchers("/js/**","/css/**").permitAll()
                                     .requestMatchers("/register/**").permitAll()
                                     .requestMatchers("/index").permitAll()
                                     .requestMatchers("/users").hasRole("ADMIN")
