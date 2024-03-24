@@ -1,13 +1,12 @@
 package org.jonlima.iScheduler.security;
 
+import org.jonlima.iScheduler.model.Users;
 import org.jonlima.iScheduler.repository.UserRepository;
-import org.springframework.boot.autoconfigure.task.TaskSchedulingProperties;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.jonlima.iScheduler.model.User;
 
 import java.util.stream.Collectors;
 
@@ -22,11 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException{
 
-        User user = userRepository.findByEmail(usernameOrEmail);
-        if(user != null){
-            return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                    user.getPassword(),
-                    user.getRoles().stream()
+        Users users = userRepository.findByEmail(usernameOrEmail);
+        if(users != null){
+            return new org.springframework.security.core.userdetails.User(users.getEmail(),
+                    users.getPassword(),
+                    users.getRoles().stream()
                             .map((role)-> new SimpleGrantedAuthority(role.getName()))
                             .collect(Collectors.toList()));
         }else {

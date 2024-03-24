@@ -1,11 +1,11 @@
 package org.jonlima.iScheduler.service;
 
-import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.model.Users;
 
 import java.util.List;
 
 public interface FriendshipService {
-    List<User> findFriendsByUserId(long id);
-    void addFriend(User user, User friend);
-    void removeFriend(User user, User friend);
+    List<Users> findFriendsByUserId(long id);
+    void addFriend(Users users, Users friend);
+    void removeFriend(Users users, Users friend);
 }

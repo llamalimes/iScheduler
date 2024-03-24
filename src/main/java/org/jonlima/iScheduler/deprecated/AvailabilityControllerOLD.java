@@ -1,7 +1,7 @@
 //package org.jonlima.iScheduler.controller;
 //
 //import org.jonlima.iScheduler.model.Availability;
-//import org.jonlima.iScheduler.model.User;
+//import org.jonlima.iScheduler.model.Users;
 //import org.jonlima.iScheduler.service.AvailabilityService;
 //import org.jonlima.iScheduler.service.UserService;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,8 @@
 //    @PostMapping("/save")
 //    public String saveAvailability(@ModelAttribute("availability") Availability availability, Principal principal) {
 //        String email = principal.getName();
-//        User user = userService.findUserByEmail(email);
-//        availability.setUser(user);
+//        Users user = userService.findUserByEmail(email);
+//        availability.setUsers(user);
 //        availabilityService.saveAvailability(availability);
 //        return "redirect:/users?availabilitySaved";
 //    }
@@ -37,8 +37,8 @@
 //    @PostMapping("/saveBlocks")
 //    public String saveAvailabilityBlocks(@ModelAttribute("availability") Availability availability, Principal principal) {
 //        String email = principal.getName();
-//        User user = userService.findUserByEmail(email);
-//        availability.setUser(user);
+//        Users user = userService.findUserByEmail(email);
+//        availability.setUsers(user);
 //        availabilityService.saveAvailabilityBlocks(availability);
 //        return "redirect:/users?availabilitySaved";
 //    }

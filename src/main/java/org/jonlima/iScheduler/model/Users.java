@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,12 +20,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String password;
 
     private String timeZone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Availability> availabilities = new ArrayList<>();
 
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -35,14 +35,14 @@ public class User {
             )})
     public List<Role> roles = new ArrayList<>();
 
-    public User() {
+    public Users() {
         // Create default availabilities
         //createDefaultAvailabilities();
     }
     private void createDefaultAvailabilities() {
         for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
             Availability availability = new Availability();
-            availability.setUser(this);
+            availability.setUsers(this);
             availability.setDayOfWeek(dayOfWeek);
 
             TimeBlock defaultTimeBlock = new TimeBlock();
@@ -56,6 +56,6 @@ public class User {
     }
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name='" + name + "', email='" + email + "', password='" + password + "', timeZone='" + timeZone + "'}";
+        return "Users{" + "id=" + id + ", name='" + name + "', email='" + email + "', password='" + password + "', timeZone='" + timeZone + "'}";
     }
 }

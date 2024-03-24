@@ -2,7 +2,7 @@ package org.jonlima.iScheduler.service.impl;
 
 import org.jonlima.iScheduler.model.dto.UserDTO;
 import org.jonlima.iScheduler.model.Role;
-import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.model.Users;
 import org.jonlima.iScheduler.repository.RoleRepository;
 import org.jonlima.iScheduler.repository.UserRepository;
 import org.jonlima.iScheduler.service.AvailabilityService;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private AvailabilityService availabilityService;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final AvailabilityService availabilityService;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, AvailabilityService availabilityService, PasswordEncoder passwordEncoder){
         super();
@@ -31,21 +31,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(UserDTO userDto) {
-        User user = new User();
+        Users users = new Users();
 
-        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
-        user.setEmail(userDto.getEmail());
+        users.setName(userDto.getFirstName() + " " + userDto.getLastName());
+        users.setEmail(userDto.getEmail());
 
         // Encrypt the password using Spring Security
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        users.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Role role = roleRepository.findByName("ROLE_ADMIN");
         if (role == null) {
             role = checkRoleExist();
         }
-        user.setRoles(Arrays.asList(role));
-        userRepository.save(user);
+        users.setRoles(Arrays.asList(role));
+        userRepository.save(users);
 
-        //availabilityService.initializeClosedAvailability(user);
+        //availabilityService.initializeClosedAvailability(users);
     }
 
 
@@ -56,16 +56,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email){
+    public Users findUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
-//    @Override
-//    public User findUserByUsername(String username){
-//        return userRepository.findByUsername(username);
-//    }
+
     @Override
     public List<UserDTO> findAllUsers(){
-        List<User> users = userRepository.findAll();
+        List<Users> users = userRepository.findAll();
 
         return users.stream()
                 .map((user) -> mapToUserDto(user))
@@ -73,17 +70,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
+    public Users findById(Long id) {
         return userRepository.findUserById(id);
     }
 
-    public UserDTO mapToUserDto(User user){
+    public UserDTO mapToUserDto(Users users){
         UserDTO userDTO = new UserDTO();
 
-        String[] str = user.getName().split(" ");
+        String[] str = users.getName().split(" ");
         userDTO.setFirstName(str[0]);
         userDTO.setLastName(str[1]);
-        userDTO.setEmail(user.getEmail());
+        userDTO.setEmail(users.getEmail());
         return userDTO;
     }
 }

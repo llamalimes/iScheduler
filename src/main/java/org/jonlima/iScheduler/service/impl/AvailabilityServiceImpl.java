@@ -2,7 +2,7 @@ package org.jonlima.iScheduler.service.impl;
 
 import org.jonlima.iScheduler.model.Availability;
 import org.jonlima.iScheduler.model.TimeBlock;
-import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.model.Users;
 import org.jonlima.iScheduler.model.dto.AvailabilityForm;
 import org.jonlima.iScheduler.model.dto.TimeBlockForm;
 import org.jonlima.iScheduler.repository.AvailabilityRepository;
@@ -31,24 +31,24 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public List<Availability> findAvailabilitiesByUser(User user) {
-        return availabilityRepository.findByUser(user);
+    public List<Availability> findAvailabilitiesByUser(Users users) {
+        return availabilityRepository.findByUsers(users);
     }
 
     @Override
-    public List<Availability> findAvailabilitiesByUserAndDayOfWeek(User user, DayOfWeek dayOfWeek) {
-        return availabilityRepository.findByUserAndDayOfWeek(user, dayOfWeek);
+    public List<Availability> findAvailabilitiesByUserAndDayOfWeek(Users users, DayOfWeek dayOfWeek) {
+        return availabilityRepository.findByUsersAndDayOfWeek(users, dayOfWeek);
     }
     @Override
-    public Map<DayOfWeek, List<Availability>> findAvailabilitiesGroupedByDay(User user) {
-        List<Availability> availabilities = findAvailabilitiesByUser(user);
+    public Map<DayOfWeek, List<Availability>> findAvailabilitiesGroupedByDay(Users users) {
+        List<Availability> availabilities = findAvailabilitiesByUser(users);
         return availabilities.stream()
                 .collect(Collectors.groupingBy(Availability::getDayOfWeek));
     }
     @Override
-    public void initializeClosedAvailability(User user) {
+    public void initializeClosedAvailability(Users users) {
         Availability availability = new Availability();
-        availability.setUser(user);
+        availability.setUsers(users);
         availabilityRepository.save(availability);
     }
 
@@ -59,11 +59,11 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
     // Helper method to convert AvailabilityForm to Availability entity
    @Override
-    public Availability convertToAvailability(AvailabilityForm availabilityForm, User user) {
+    public Availability convertToAvailability(AvailabilityForm availabilityForm, Users users) {
         Availability availability = new Availability();
 
-        // Set the user for the availability
-        availability.setUser(user);
+        // Set the users for the availability
+        availability.setUsers(users);
 
         // Set other fields based on the form data
         availability.setDayOfWeek(availabilityForm.getDayOfWeek());
@@ -80,9 +80,9 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public TimeBlock findCommonAvailability(User user1, User user2) {
-        List<Availability> availabilities1 = user1.getAvailabilities();
-        List<Availability> availabilities2 = user2.getAvailabilities();
+    public TimeBlock findCommonAvailability(Users users1, Users users2) {
+        List<Availability> availabilities1 = users1.getAvailabilities();
+        List<Availability> availabilities2 = users2.getAvailabilities();
 
         for (int day = 0; day < 7; day++) { // Assuming 0 = Monday, 1 = Tuesday, ..., 6 = Sunday
             List<TimeBlock> blocks1 = availabilities1.get(day).getTimeBlocks();

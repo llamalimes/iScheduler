@@ -34,8 +34,8 @@
 //        Optional<Friendship> existingFriendshipOptional = friendshipRepository.findById(id);
 //        if (existingFriendshipOptional.isPresent()) {
 //            Friendship existingFriendship = existingFriendshipOptional.get();
-//            existingFriendship.setUser1(friendship.getUser1());
-//            existingFriendship.setUser2(friendship.getUser2());
+//            existingFriendship.setUsers1(friendship.getUsers1());
+//            existingFriendship.setUsers2(friendship.getUsers2());
 //            return friendshipRepository.save(existingFriendship);
 //        } else {
 //            throw new IllegalArgumentException("Friendship not found with id: " + id);

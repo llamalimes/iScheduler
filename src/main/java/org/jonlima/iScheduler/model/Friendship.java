@@ -11,22 +11,22 @@ public class Friendship {
     private long id;
 
     @ManyToOne
-    private User user1;
+    private Users users1;
 
     @ManyToOne
-    private User user2;
+    private Users users2;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Friendship that = (Friendship) o;
-        return Objects.equals(user1, that.user1) &&
-                Objects.equals(user2, that.user2);
+        return Objects.equals(users1, that.users1) &&
+                Objects.equals(users2, that.users2);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(user1, user2);
+        return Objects.hash(users1, users2);
     }
 }

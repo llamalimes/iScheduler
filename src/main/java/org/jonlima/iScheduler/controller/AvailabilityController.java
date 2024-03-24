@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.jonlima.iScheduler.model.Availability;
 import org.jonlima.iScheduler.model.TimeBlock;
 import org.jonlima.iScheduler.model.dto.AvailabilityForm;
-import org.jonlima.iScheduler.model.User;
+import org.jonlima.iScheduler.model.Users;
 import org.jonlima.iScheduler.model.dto.TimeBlockForm;
 import org.jonlima.iScheduler.service.AvailabilityService;
 import org.jonlima.iScheduler.service.UserService;
@@ -51,12 +51,12 @@ public class AvailabilityController {
             return "availability-form";
         }
 
-        // Retrieve the currently logged-in user
+        // Retrieve the currently logged-in users
         String email = principal.getName();
-        User user = userService.findUserByEmail(email);
+        Users users = userService.findUserByEmail(email);
 
         // Convert the form data to an Availability entity
-        Availability availability = availabilityService.convertToAvailability(availabilityForm, user);
+        Availability availability = availabilityService.convertToAvailability(availabilityForm, users);
 
         // Save or update the availability
         availabilityService.saveAvailability(availability);
@@ -66,11 +66,11 @@ public class AvailabilityController {
     }
     @GetMapping("/compare-availabilities")
     public String compareAvailabilities(@RequestParam Long userId1, @RequestParam Long userId2, Model model) {
-        User user1 = userService.findById(userId1);
-        User user2 = userService.findById(userId2);
-        System.out.println(user1);
-        System.out.println(user2);
-        TimeBlock commonAvailability = availabilityService.findCommonAvailability(user1, user2);
+        Users users1 = userService.findById(userId1);
+        Users users2 = userService.findById(userId2);
+        System.out.println(users1);
+        System.out.println(users2);
+        TimeBlock commonAvailability = availabilityService.findCommonAvailability(users1, users2);
         System.out.println(commonAvailability);
         model.addAttribute("commonAvailability", commonAvailability);
         return "availability-comparison"; // Name of the Thymeleaf template to display the result

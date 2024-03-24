@@ -1,9 +1,9 @@
 package org.jonlima.iScheduler.controller;
 
 import jakarta.validation.Valid;
+import org.jonlima.iScheduler.model.Users;
 import org.jonlima.iScheduler.model.dto.UserDTO;
 import org.jonlima.iScheduler.model.Availability;
-import org.jonlima.iScheduler.model.User;
 import org.jonlima.iScheduler.service.AvailabilityService;
 import org.jonlima.iScheduler.service.FriendshipService;
 import org.jonlima.iScheduler.service.UserService;
@@ -60,9 +60,9 @@ public class UserAuthController {
     //handler method to handle user registration form submit request
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDTO userDto, BindingResult result, Model model){
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+        Users existingUsers = userService.findUserByEmail(userDto.getEmail());
 
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+        if (existingUsers != null && existingUsers.getEmail() != null && !existingUsers.getEmail().isEmpty()){
             result.rejectValue("email", null, "There is already an account registered with the same email");
         }
 
@@ -81,19 +81,19 @@ public class UserAuthController {
     public String users(Model model, Principal principal){
 
         String email = principal.getName();
-        User user = userService.findUserByEmail(email);
-        model.addAttribute("user", user);
-        model.addAttribute("name", user.getName());
+        Users users = userService.findUserByEmail(email);
+        model.addAttribute("user", users);
+        model.addAttribute("name", users.getName());
 
-        List<User> friends = friendshipService.findFriendsByUserId(user.getId());
+        List<Users> friends = friendshipService.findFriendsByUserId(users.getId());
         model.addAttribute("friends", friends);
 
-        // Retrieve availability of the logged-in user grouped by day
-        //Map<DayOfWeek, List<Availability>> availabilitiesByDay = availabilityService.findAvailabilitiesGroupedByDay(user);
+        // Retrieve availability of the logged-in users grouped by day
+        //Map<DayOfWeek, List<Availability>> availabilitiesByDay = availabilityService.findAvailabilitiesGroupedByDay(users);
         //model.addAttribute("availabilitiesByDay", availabilitiesByDay);
 
-        // Retrieve availability of the logged-in user
-        List<Availability> availabilities = availabilityService.findAvailabilitiesByUser(user);
+        // Retrieve availability of the logged-in users
+        List<Availability> availabilities = availabilityService.findAvailabilitiesByUser(users);
         Map<DayOfWeek, List<Availability>> availabilitiesByDay = availabilities.stream()
                 .collect(Collectors.groupingBy(Availability::getDayOfWeek));
         model.addAttribute("availabilitiesByDay", availabilitiesByDay);

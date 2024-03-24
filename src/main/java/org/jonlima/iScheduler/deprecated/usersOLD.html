@@ -34,10 +34,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each = "user : ${users}">
-            <td th:text = "${user.firstName}"></td>
-            <td th:text = "${user.lastName}"></td>
-            <td th:text = "${user.email}"></td>
+        <tr th:each = "users : ${users}">
+            <td th:text = "${users.firstName}"></td>
+            <td th:text = "${users.lastName}"></td>
+            <td th:text = "${users.email}"></td>
         </tr>
         </tbody>
     </table>

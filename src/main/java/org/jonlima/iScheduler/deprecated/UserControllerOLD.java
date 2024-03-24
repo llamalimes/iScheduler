@@ -1,6 +1,6 @@
 //package org.jonlima.iScheduler.controller;
 //
-//import org.jonlima.iScheduler.model.User;
+//import org.jonlima.iScheduler.model.Users;
 //import org.jonlima.iScheduler.repository.UserRepository;
 //import org.jonlima.iScheduler.service.UserService;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -21,29 +21,29 @@
 //    private UserService userService;
 //
 //    @GetMapping
-//    public List<User> getAllUsers() {
+//    public List<Users> getAllUsers() {
 //        return userRepository.findAll();
 //    }
 //
 //    @GetMapping("/{id}")
-//    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-//        Optional<User> user = userRepository.findById(id);
+//    public ResponseEntity<Users> getUserById(@PathVariable Long id) {
+//        Optional<Users> user = userRepository.findById(id);
 //        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 //    }
 //
 //    @PostMapping
-//    public ResponseEntity<User> createUser(@RequestBody User user) {
-//        User savedUser = userRepository.save(user);
+//    public ResponseEntity<Users> createUser(@RequestBody Users user) {
+//        Users savedUser = userRepository.save(user);
 //        return ResponseEntity.created(URI.create("/api/users/" + savedUser.getId())).body(savedUser);
 //    }
 //
 //    @PutMapping("/{id}")
-//    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+//    public ResponseEntity<Users> updateUser(@PathVariable Long id, @RequestBody Users user) {
 //        if (!userRepository.existsById(id)) {
 //            return ResponseEntity.notFound().build();
 //        }
 //        user.setId(id);
-//        User savedUser = userRepository.save(user);
+//        Users savedUser = userRepository.save(user);
 //        return ResponseEntity.ok(savedUser);
 //    }
 //
