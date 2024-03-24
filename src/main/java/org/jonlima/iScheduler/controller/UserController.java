@@ -22,14 +22,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-public class UserAuthController {
+public class UserController {
     private UserService userService;
     private FriendshipService friendshipService;
     //@Autowired
     private AvailabilityService availabilityService;
 
     @Autowired
-    public UserAuthController(UserService userService, FriendshipService friendshipService, AvailabilityService availabilityService) {
+    public UserController(UserService userService, FriendshipService friendshipService, AvailabilityService availabilityService) {
         this.userService = userService;
         this.friendshipService = friendshipService;
         this.availabilityService = availabilityService;

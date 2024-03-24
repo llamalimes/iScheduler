@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +36,13 @@ public class User {
             )})
     public List<Role> roles = new ArrayList<>();
 
-    public User() {
-        // Create default availabilities
-        //createDefaultAvailabilities();
+    public User(){
     }
+    public User(long l, String user1) {
+        this.id = l;
+        this.name = user1;
+    }
+
     private void createDefaultAvailabilities() {
         for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
             Availability availability = new Availability();
