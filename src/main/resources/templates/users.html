@@ -38,7 +38,7 @@
                 <li th:each="friend : ${friends}" class="list-group-item d-flex justify-content-between align-items-center">
                     <span th:text="${friend.name}"></span>
                     <form th:action="@{availability/compare-availabilities}" method="get">
-                        <input type="hidden" name="userId1" th:value="${users.id}">
+                        <input type="hidden" name="userId1" th:value="${user.id}">
                         <input type="hidden" name="userId2" th:value="${friend.id}">
                         <button type="submit" class="btn btn-primary">Schedule Meeting</button>
                     </form>

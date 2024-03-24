@@ -52,7 +52,7 @@ public class UserAuthController {
     public String showRegistrationForm(Model model) {
         //create a model object to store form data
         UserDTO user = new UserDTO();
-        model.addAttribute("user", user);
+        model.addAttribute("users", user);
 
         return "register";
     }
