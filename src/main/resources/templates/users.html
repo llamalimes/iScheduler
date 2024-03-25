@@ -12,7 +12,7 @@
     <!-- Navbar Fragment -->
     <div th:replace="~{fragments/navbar :: navbar}"></div>
     <div class="container">
-        <h1><span th:text="${name}"></span>'s Scheduler Dashboard</h1>
+        <h1><span th:text="${name}"></span>'s iScheduler Dashboard</h1>
     </div>
 </header>
 
@@ -60,15 +60,23 @@
     </section>
     <section id="view-availability" class="mb-4">
         <h1>User Availability</h1>
-        <div th:if="${availabilitiesByDay != null}">
-        <div th:each="availabilities : ${availabilitiesByDay}">
-            <h2 th:text="${availabilities.key}"></h2>
-            <ul th:each="availability : ${availabilities.value}">
-                <li th:each="timeBlock : ${availability.timeBlocks}">
-                    <span th:text="${timeBlock.startTime} + ' - ' + ${timeBlock.endTime}"></span>
-                </li>
-            </ul>
-        </div>
+        <div th:if="${availabilitiesByDay != null}" class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Day of Week</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${availabilitiesByDay.entrySet()}">
+                    <td th:text="${entry.key}">Day of Week</td>
+                    <td th:each="availability : ${entry.value}" th:text="${#temporals.format(availability.timeBlocks[0].startTime, 'hh:mm a')}">Start Time</td>
+                    <td th:each="availability : ${entry.value}" th:text="${#temporals.format(availability.timeBlocks[0].endTime, 'hh:mm a')}">End Time</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <div th:if="${availabilitiesByDay == null}">
             <p>No availability set</p>

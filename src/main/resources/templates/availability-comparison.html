@@ -10,12 +10,12 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main class="container py-4">
-    <h1>Common Availability</h1>
+    <h1>Common Availability with <span th:text="${friend.name}"></span></h1>
     <div th:if="${commonAvailability != null}" class="card mb-3">
         <div class="card-body">
             <h5 class="card-title" th:text="${commonAvailability.dayOfWeek}">Day of Week</h5>
-            <p class="card-text">Start Time: <span th:text="${commonAvailability.startTime}">Start Time</span></p>
-            <p class="card-text">End Time: <span th:text="${commonAvailability.endTime}">End Time</span></p>
+            <p class="card-text">Start Time: <span th:text="${#temporals.format(commonAvailability.startTime, 'hh:mm a')}">Start Time</span></p>
+            <p class="card-text">End Time: <span th:text="${#temporals.format(commonAvailability.endTime, 'hh:mm a')}">End Time</span></p>
         </div>
     </div>
     <p th:if="${commonAvailability == null}">No common availability found.</p>

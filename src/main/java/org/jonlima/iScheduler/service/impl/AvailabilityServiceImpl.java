@@ -84,7 +84,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         List<Availability> availabilities1 = users1.getAvailabilities();
         List<Availability> availabilities2 = users2.getAvailabilities();
 
-        for (int day = 1; day < 8; day++) { // Assuming 1 = Monday, 2 = Tuesday, ..., 7 = Sunday
+        for (int day = 0; day < 7; day++) { // Assuming 1 = Monday, 2 = Tuesday, ..., 7 = Sunday
             List<TimeBlock> blocks1 = availabilities1.get(day).getTimeBlocks();
             List<TimeBlock> blocks2 = availabilities2.get(day).getTimeBlocks();
 
@@ -93,7 +93,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                     if (block1.overlapsWith(block2)) {
                         TimeBlock overlap = block1.getOverlap(block2);
                         if (overlap != null) {
-                            overlap.setDayOfWeek(DayOfWeek.of((day+2)%7));
+                            overlap.setDayOfWeek(DayOfWeek.of((day+3)%7));
                             return overlap;
                         }
                     }

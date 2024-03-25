@@ -73,6 +73,7 @@ public class AvailabilityController {
         TimeBlock commonAvailability = availabilityService.findCommonAvailability(users1, users2);
         System.out.println(commonAvailability);
         model.addAttribute("commonAvailability", commonAvailability);
+        model.addAttribute("friend", users2);
         return "availability-comparison"; // Name of the Thymeleaf template to display the result
     }
 

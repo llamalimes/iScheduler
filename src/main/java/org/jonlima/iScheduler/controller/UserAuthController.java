@@ -17,9 +17,12 @@ import org.springframework.validation.BindingResult;
 
 import java.security.Principal;
 import java.time.DayOfWeek;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 @Controller
 public class UserAuthController {
@@ -96,6 +99,7 @@ public class UserAuthController {
         List<Availability> availabilities = availabilityService.findAvailabilitiesByUser(users);
         Map<DayOfWeek, List<Availability>> availabilitiesByDay = availabilities.stream()
                 .collect(Collectors.groupingBy(Availability::getDayOfWeek));
+        Collections.sort(availabilities, Comparator.comparing(Availability::getDayOfWeek));
         model.addAttribute("availabilitiesByDay", availabilitiesByDay);
 
         return "users";
