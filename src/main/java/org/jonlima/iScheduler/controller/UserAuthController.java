@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.jonlima.iScheduler.model.Users;
 import org.jonlima.iScheduler.model.dto.UserDTO;
 import org.jonlima.iScheduler.model.Availability;
+import org.jonlima.iScheduler.model.TimeBlock;
 import org.jonlima.iScheduler.service.AvailabilityService;
 import org.jonlima.iScheduler.service.FriendshipService;
 import org.jonlima.iScheduler.service.UserService;
@@ -21,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
@@ -80,7 +82,7 @@ public class UserAuthController {
     }
 
     //handler method is used to handle a list of students
-    @GetMapping("/users")
+    /*@GetMapping("/users")
     public String users(Model model, Principal principal){
 
         String email = principal.getName();
@@ -104,7 +106,40 @@ public class UserAuthController {
 
         return "users";
     }
+*/
+    @GetMapping("/users")
+    public String users(Model model, Principal principal) {
+        String email = principal.getName();
+        Users users = userService.findUserByEmail(email);
+        model.addAttribute("user", users);
+        model.addAttribute("name", users.getName());
 
+        List<Users> friends = friendshipService.findFriendsByUserId(users.getId());
+        model.addAttribute("friends", friends);
+
+        // Retrieve availability of the logged-in user
+        List<Availability> availabilities = availabilityService.findAvailabilitiesByUser(users);
+
+        // Ensure TimeBlock within each Availability is sorted
+        availabilities.forEach(availability ->
+                availability.setTimeBlocks(
+                        availability.getTimeBlocks().stream()
+                                .sorted(Comparator.comparing(TimeBlock::getStartTime))
+                                .collect(Collectors.toList())
+                )
+        );
+
+        // Now, group by DayOfWeek into a TreeMap to maintain order
+        Map<DayOfWeek, List<Availability>> availabilitiesByDay = availabilities.stream()
+                .collect(Collectors.groupingBy(
+                        Availability::getDayOfWeek,
+                        TreeMap::new, // Use TreeMap for natural order of DayOfWeek
+                        Collectors.toList()));
+
+        model.addAttribute("availabilitiesByDay", availabilitiesByDay);
+
+        return "users";
+    }
 
 }
 
