@@ -3,6 +3,7 @@ package org.jonlima.iScheduler.model;
 import jakarta.persistence.Embeddable;
 import lombok.Data;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Embeddable
@@ -12,9 +13,11 @@ public class TimeBlock {
     private LocalTime startTime;
 
     private LocalTime endTime;
+    private DayOfWeek dayOfWeek;
     public TimeBlock(LocalTime startTime, LocalTime endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
+        dayOfWeek = null;
     }
     public TimeBlock() {
     }
